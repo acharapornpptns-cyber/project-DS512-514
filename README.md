@@ -28,6 +28,34 @@ Feature :
 * K-Nearest Neighbors
 * Logistic Regression  
 
+### 🧠 Model Training: K-Nearest Neighbors (KNN)
+
+การสร้างโมเดล KNN และใช้เทคนิค **GridSearchCV** เพื่อค้นหาค่า Hyperparameter ที่เหมาะสมที่สุด (`n_neighbors`) โดยกำหนดค่า k ตั้งแต่ 3 ถึง 25
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+
+# Initialize the model
+knn2 = KNeighborsClassifier()
+
+# Define the parameter grid
+param_grid = {'n_neighbors': [3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 25]}
+
+# Set up GridSearchCV with 5-fold Cross Validation
+grid_search = GridSearchCV(knn2, param_grid, cv=5, scoring='accuracy')
+
+# Fit the model
+grid_search.fit(X_train_scaled2, y_train2)
+
+# Display best parameters
+print("Best parameters : ", grid_search.best_params_)
+
+# Predict using the best estimator
+best_knn = grid_search.best_estimator_
+y_predict_train2 = best_knn.predict(X_train_scaled2)
+y_predict_test2 = best_knn.predict(X_test_scaled2)
+
 ## การประเมินผลโมเดล (Evaluation)
 * Accuracy
 * Precision
